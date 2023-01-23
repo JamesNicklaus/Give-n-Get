@@ -1,0 +1,1039 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Oct 06, 2022 at 07:54 PM
+-- Server version: 5.7.36
+-- PHP Version: 7.4.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `foodbank_db`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donors`
+--
+
+DROP TABLE IF EXISTS `donors`;
+CREATE TABLE IF NOT EXISTS `donors` (
+  `donor_id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  `email` varchar(80) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `phoneNumber` varchar(80) NOT NULL,
+  `zipCode` varchar(25) NOT NULL,
+  `type` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`donor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `donors`
+--
+
+INSERT INTO `donors` (`donor_id`, `name`, `email`, `password`, `phoneNumber`, `zipCode`, `type`) VALUES
+(1, 'Keri', 'Keri123@gmail.com', 'Keri', '631-951-8699', '11746', 1),
+(2, 'Yoel', 'Yoel123@gmail.com', 'Yoel', '555-321-5959', '11369', 0),
+(3, 'Timmy', 'Timmy123@gmail.com', 'Timmy', '777-856-9841', '11964', 1),
+(4, 'Luke', 'Luke123@gmail.com', 'Luke', '999-231-1900', '11356', 0),
+(5, 'Josh', 'Josh123@gmail.com', 'Josh', '856-454-8700', '11568', 0),
+(6, 'Sebastian', 'Sebastian123@gmail.com', 'Sebastian', '999-231-1900', '11235', 1),
+(7, 'Drake', 'Drake123@gmail.com', 'Drake', '689-486-9574', '11726', 0),
+(8, 'Mario', 'Mario123@gmail.com', 'Mario', '655-700-5690', '11232', 1);
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE IF NOT EXISTS `employee` (
+  `employee_id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  `workEmail` varchar(80) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `phoneNumber` varchar(80) NOT NULL,
+  `manager` tinyint(1) DEFAULT NULL,
+  `ein_number` varchar(10) NOT NULL,
+  PRIMARY KEY (`employee_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`employee_id`, `name`, `workEmail`, `password`, `phoneNumber`, `manager`, `ein_number`)VALUES
+(1001, 'Kel', 'Kel123@gmail.com', 'Kel', '631-265-8477', 1, '26-8438447'),
+(1002, 'Cristian', 'Cristian@gmail.com', 'Cristian', '348-658-8491', 0, '26-8438447'),
+(1003, 'Kidd', 'Kidd123@gmail.com', 'Kidd', '631-954-6842', 1, '38-1983547'),
+(1004, 'Ruth', 'Ruth123@gmail.com', 'Ruth', '631-896-4127', 0, '38-1983547'),
+(1005, 'Paolo', 'Paolo123@gmail.com', 'Paolo', '631-854-6321', 1, '14-7849153'),
+(1006, 'Colby', 'Colby123@gmail.com', 'Colby', '631-753-9519', 0, '14-7849153'),
+(1007, 'Morty', 'Morty123@gmail.com', 'Morty', '631-456-8452', 1, '95-8426571'),
+(1008, 'Rick', 'Rick123@gmail.com', 'Rick', '631-746-8523', 0, '95-8426571');
+
+
+-- --------------------------------------------------------
+
+
+--
+-- Table structure for table `food_banks`
+--
+
+DROP TABLE IF EXISTS `food_banks`;
+CREATE TABLE IF NOT EXISTS `food_banks` (
+  `ein_number` varchar(20) NOT NULL,
+  `name` 	   varchar(80) NOT NULL,
+  `address`	   varchar(80) NOT NULL.
+  `city`	   varchar(80) NOT NULL,
+  `state`      varchar(80) NOT NULL,
+  `zipcode`	   varchar(15) NOT NULL,
+  `phoneNumber` varchar(80) NOT NULL,
+  `url`		   varchar(80) NOT NULL,
+  `longitude`  float(25) NULL,
+  `latitude`   float(25) NULL,
+  `employee_id` int NOT NULL,
+  PRIMARY KEY (`ein_number`),
+  FOREIGN KEY (`employee_id`) REFERENCES `employee`(`employee_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+
+
+--
+-- Dumping data for table `food_banks`
+--
+
+INSERT INTO `food_banks` (`ein_number`,`name`,`address`,`city`,`state`,`zipcode`,`phoneNumber`,`url`,`employee_id`) VALUES
+( '26-8438447', 'Saint Kilian', '140 Elizabeth St', 'Farmingdale', 'NY', '11735', '631-849-6668','https://stkilian.com/', 1001),
+( '38-1983547', 'Island Harvest', '126 Spagnoli Road', 'Melville', 'NY', '11747', '631-448-3421','https://www.islandharvest.org/','126', 1003),
+( '14-7849153', 'Long Island Cares Inc', '10 Davids Drive', 'Hauppauge', 'NY', '11788', '631-855-4172','https://www.licares.org/','10', 1005),
+( '95-8426571', 'City Harvest', '150 52nd Street', 'Brooklyn', 'NY', '11232', '631-332-1124','http://www.cityharvest.org/', 1007);
+COMMIT;
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 1
+drop table if exists '147849153_inv';
+create table if not exists '147849153_inv' (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  `priority` ENUM('Low', 'Medium', 'High') DEFAULT NULL,
+  `display` tinyint(1) DEFAULT 1,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table '147849153_inv'
+  INSERT INTO '147849153_inv' (`itemNumber`,`name`,`type`,`quantity`,`priority`,`display`) VALUES
+( '10001', 'Baked Beans', 'Protein', 27),
+( '10002', 'Beefaroni', 'Combo Food', 26),
+( '10003', 'Black Beans', 'Protein', 41),
+( '10004', 'Brownie Mix', 'Sweets', 15),
+( '10005', 'Cake Mix', 'Sweets', 23),
+( '10006', 'Canned Beef Stew', 'Protein', 2),
+( '10007', 'Canned Chicken', 'Protein', 41),
+( '10008', 'Canned Chilli', 'Protein', 7),
+( '10009', 'Carrots', 'Vegetable', 1),
+( '10010', 'Cereal', 'Grains', 22),
+( '10011', 'Chickpeas', 'Protein', 48),
+( '10012', 'Chicken Helper', 'Combo Food', 28),
+( '10013', 'Coffee', 'Drinks', 49),
+( '10014', 'Condensed Milk', 'Dairy', 2),
+( '10015', 'Conditioner', 'Personal Care', 43),
+( '10016', 'Cookies', 'Sweets', 23),
+( '10017', 'Corn', 'Vegetable', 26),
+( '10018', 'Crackers', 'Grains', 9),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 32),
+( '10020', 'Deodrant', 'Personal Care', 6),
+( '10021', 'Evaporated Milk', 'Dairy', 42),
+( '10022', 'Gravy', 'Condiments', 28),
+( '10023', 'Hamburger Helper', 'Combo Food', 40),
+( '10024', 'Hot Chocolate', 'Drinks', 46),
+( '10025', 'Icing', 'Sweets', 10),
+( '10026', 'Jam', 'Sweets', 49),
+( '10027', 'Jello', 'Sweets', 4),
+( '10028', 'Juice', 'Drinks', 48),
+( '10029', 'Ketchup', 'Condiments', 38),
+( '10030', 'Laundry Detergent', 'Cleaning', 17),
+( '10031', 'Lentils', 'Protein', 31),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 1),
+( '10033', 'Mayonnaise', 'Condiments', 1),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 13),
+( '10035', 'Mixed Vegtables', 'Vegetable', 36),
+( '10036', 'Mustard', 'Condiments', 35),
+( '10037', 'Napkins', 'Cleaning', 28),
+( '10038', 'Oatment', 'Cereal', 5),
+( '10039', 'Canned Oranges', 'Canned Fruit', 44),
+( '10040', 'Pancake Mix', 'Sweets', 8),
+( '10041', 'Pancake Syrup', 'Sweets', 3),
+( '10042', 'Paper Towels', 'Cleaning', 7),
+( '10043', 'Pasta Roni', 'Combo Food', 15),
+( '10044', 'Canned Peaches', 'Canned Fruit', 42),
+( '10045', 'Peanut Butter', 'Protein', 37),
+( '10046', 'Canned Pears', 'Canned Fruit', 32),
+( '10047', 'Peas', 'Vegetable', 42),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 4),
+( '10049', 'Potatoes', 'Vegetable', 22),
+( '10050', 'Powdered Milk', 'Dairy', 25),
+( '10051', 'Pudding', 'Sweets', 43),
+( '10052', 'Red Beans', 'Protein', 43),
+( '10053', 'Rice', 'Grains', 37),
+( '10054', 'Rice-A-Roni', 'Combo Food', 27),
+( '10055', 'Salad Dressing', 'Protein', 36),
+( '10056', 'Salmon', 'Protein', 19),
+( '10057', 'Salt', 'Condiments', 24),
+( '10058', 'Shampoo', 'Personal Care', 6),
+( '10059', 'Soap', 'Personal Care', 7),
+( '10060', 'Spaghettios', 'Combo Food', 42),
+( '10061', 'Spinach', 'Vegetable', 20),
+( '10062', 'Sugar', 'Sweets', 0),
+( '10063', 'Tea', 'Drinks', 3),
+( '10064', 'Tissues', 'Cleaning', 49),
+( '10065', 'Toilet Paper', 'Personal Care', 25),
+( '10066', 'Tomato Pasta', 'Combo Food', 15),
+( '10067', 'Tomato Sauce', 'Combo Food', 33),
+( '10068', 'Tomatoes', 'Vegetable', 48),
+( '10069', 'Toothpaste', 'Personal Care', 40),
+( '10070', 'Tuna', 'Protein', 36),
+( '10071', 'White Beans', 'Protein', 48),
+( '10072', 'Yams', 'Vegetable', 35);
+COMMIT;
+
+
+
+drop table is exists `donations`;
+create table if not exists `donations` (
+	`donationId` int NOT NULL,
+	`foodbankId` varchar(20) NOT NULL,
+	`userId` int NOT NULL,
+	`status` enum('Pending', 'Complete') DEFAULT 'Pending',
+	`donoDate` date DEFAULT NULL,
+	`donoTime` time NOT NULL,
+	primary key (`donationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+INSERT INTO `donations` (`donationId`,`foodbankId`,`userId`,`status`,`donoDate`,`donoTime`) VALUES
+('100000', '11-2223345', '10', 'Pending', '2022-11-25', '15:00:00'),
+('100001', '11-2223345', '10', 'Pending', '2022-11-25', '15:10:00'),
+('100002', '11-2223345', '10', 'Pending', '2022-11-25', '15:20:00');
+COMMIT;
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 2
+drop table if exists `foodbank2`;
+create table if not exists `foodbank2` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank2`
+  INSERT INTO `foodbank2` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '1001', 'Baked Beans', 'Protein', 39),
+( '1002', 'Beefaroni', 'Combo Food',34 ),
+( '1003', 'Black Beans', 'Protein',14 ),
+( '1004', 'Brownie Mix', 'Sweets', 22),
+( '1005', 'Cake Mix', 'Sweets', 39),
+( '1006', 'Canned Beef Stew', 'Protein', 20),
+( '1007', 'Canned Chicken', 'Protein', 16),
+( '1008', 'Canned Chilli', 'Protein',7 ),
+( '1009', 'Carrots', 'Vegetable', 49),
+( '10010', 'Cereal', 'Grains',37 ),
+( '10011', 'Chickpeas', 'Protein', 1),
+( '10012', 'Chicken Helper', 'Combo Food', 25),
+( '10013', 'Coffee', 'Drinks', 17),
+( '10014', 'Condensed Milk', 'Dairy', 31),
+( '10015', 'Conditioner', 'Personal Care', 0),
+( '10016', 'Cookies', 'Sweets', 29),
+( '10017', 'Corn', 'Vegetable', 10),
+( '10018', 'Crackers', 'Grains', 0),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 26),
+( '10020', 'Deodrant', 'Personal Care', 26),
+( '10021', 'Evaporated Milk', 'Dairy', 41),
+( '10022', 'Gravy', 'Condiments', 11),
+( '10023', 'Hamburger Helper', 'Combo Food', 37),
+( '10024', 'Hot Chocolate', 'Drinks', 18),
+( '10025', 'Icing', 'Sweets', 43),
+( '10026', 'Jam', 'Sweets', 5),
+( '10027', 'Jello', 'Sweets', 45),
+( '10028', 'Juice', 'Drinks', 41),
+( '10029', 'Ketchup', 'Condiments', 33),
+( '10030', 'Laundry Detergent', 'Cleaning', 34),
+( '10031', 'Lentils', 'Protein', 1),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 2),
+( '10033', 'Mayonnaise', 'Condiments', 1),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 8),
+( '10035', 'Mixed Vegtables', 'Vegtable', 38),
+( '10036', 'Mustard', 'Condiments', 17),
+( '10037', 'Napkins', 'Cleaning', 15),
+( '10038', 'Oatment', 'Cereal', 27),
+( '10039', 'Canned Oranges', 'Canned Fruit', 1),
+( '10040', 'Pancake Mix', 'Sweets', 5),
+( '10041', 'Pancake Syrup', 'Sweets', 2),
+( '10042', 'Paper Towels', 'Cleaning', 8),
+( '10043', 'Pasta Roni', 'Combo Food', 33),
+( '10044', 'Canned Peaches', 'Canned Fruit', 13),
+( '10045', 'Peanut Butter', 'Protein', 43),
+( '10046', 'Canned Pears', 'Canned Fruit', 18),
+( '10047', 'Peas', 'Vegtable', 0),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 4),
+( '10049', 'Potatoes', 'Vegetable', 26),
+( '10050', 'Powdered Milk', 'Dairy', 36),
+( '10051', 'Pudding', 'Sweets', 44),
+( '10052', 'Red Beans', 'Protein', 22),
+( '10053', 'Rice', 'Grains', 48),
+( '10054', 'Rice-A-Roni', 'Combo Food', 30),
+( '10055', 'Salad Dressing', 'Protein', 6),
+( '10056', 'Salmon', 'Protein', 12),
+( '10057', 'Salt', 'Condiments', 21),
+( '10058', 'Shampoo', 'Personal Care', 5),
+( '10059', 'Soap', 'Personal Care', 44),
+( '10060', 'Spaghettios', 'Combo Food', 13),
+( '10061', 'Spinach', 'Vegtable', 31),
+( '10062', 'Sugar', 'Sweets', 1),
+( '10063', 'Tea', 'Drinks', 43),
+( '10064', 'Tissues', 'Cleaning', 27),
+( '10065', 'Toilet Paper', 'Personal Care', 37),
+( '10066', 'Tomato Pasta', 'Combo Food', 41),
+( '10067', 'Tomato Sauce', 'Combo Food', 41),
+( '10068', 'Tomatoes', 'Vegtable', 2),
+( '10069', 'Toothpaste', 'Personal Care', 31),
+( '10070', 'Tuna', 'Protein', 5),
+( '10071', 'White Beans', 'Protein', 8),
+( '10072', 'Yams', 'Vegtable', 3);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 3
+drop table if exists `foodbank3`;
+create table if not exists `foodbank3` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank3`
+  INSERT INTO `foodbank3` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 2),
+( '10002', 'Beefaroni', 'Combo Food', 33),
+( '10003', 'Black Beans', 'Protein', 49),
+( '10004', 'Brownie Mix', 'Sweets', 225),
+( '10005', 'Cake Mix', 'Sweets', 40),
+( '10006', 'Canned Beef Stew', 'Protein', 36),
+( '10007', 'Canned Chicken', 'Protein', 48),
+( '10008', 'Canned Chilli', 'Protein', 44),
+( '10009', 'Carrots', 'Vegetable', 9),
+( '10010', 'Cereal', 'Grains', 3),
+( '10011', 'Chickpeas', 'Protein', 17),
+( '10012', 'Chicken Helper', 'Combo Food', 7),
+( '10013', 'Coffee', 'Drinks', 6),
+( '10014', 'Condensed Milk', 'Dairy', 43),
+( '10015', 'Conditioner', 'Personal Care', 28),
+( '10016', 'Cookies', 'Sweets', 4),
+( '10017', 'Corn', 'Vegetable', 45),
+( '10018', 'Crackers', 'Grains', 43),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 0),
+( '10020', 'Deodrant', 'Personal Care', 33),
+( '10021', 'Evaporated Milk', 'Dairy', 9),
+( '10022', 'Gravy', 'Condiments', 42),
+( '10023', 'Hamburger Helper', 'Combo Food', 19),
+( '10024', 'Hot Chocolate', 'Drinks', 39),
+( '10025', 'Icing', 'Sweets', 29),
+( '10026', 'Jam', 'Sweets', 44),
+( '10027', 'Jello', 'Sweets', 2),
+( '10028', 'Juice', 'Drinks', 14),
+( '10029', 'Ketchup', 'Condiments', 14),
+( '10030', 'Laundry Detergent', 'Cleaning', 26),
+( '10031', 'Lentils', 'Protein', 25),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 36),
+( '10033', 'Mayonnaise', 'Condiments', 45),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 31),
+( '10035', 'Mixed Vegtables', 'Vegtable', 32),
+( '10036', 'Mustard', 'Condiments', 8),
+( '10037', 'Napkins', 'Cleaning', 28),
+( '10038', 'Oatment', 'Cereal', 26),
+( '10039', 'Canned Oranges', 'Canned Fruit', 38),
+( '10040', 'Pancake Mix', 'Sweets', 42),
+( '10041', 'Pancake Syrup', 'Sweets', 45),
+( '10042', 'Paper Towels', 'Cleaning', 7),
+( '10043', 'Pasta Roni', 'Combo Food', 12),
+( '10044', 'Canned Peaches', 'Canned Fruit', 12),
+( '10045', 'Peanut Butter', 'Protein', 2),
+( '10046', 'Canned Pears', 'Canned Fruit', 13),
+( '10047', 'Peas', 'Vegtable', 36),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 24),
+( '10049', 'Potatoes', 'Vegetable', 50),
+( '10050', 'Powdered Milk', 'Dairy', 36),
+( '10051', 'Pudding', 'Sweets', 38),
+( '10052', 'Red Beans', 'Protein', 15),
+( '10053', 'Rice', 'Grains', 46),
+( '10054', 'Rice-A-Roni', 'Combo Food', 29),
+( '10055', 'Salad Dressing', 'Protein', 1),
+( '10056', 'Salmon', 'Protein', 45),
+( '10057', 'Salt', 'Condiments', 14),
+( '10058', 'Shampoo', 'Personal Care', 11),
+( '10059', 'Soap', 'Personal Care', 5),
+( '10060', 'Spaghettios', 'Combo Food', 37),
+( '10061', 'Spinach', 'Vegtable', 37),
+( '10062', 'Sugar', 'Sweets', 12),
+( '10063', 'Tea', 'Drinks', 29),
+( '10064', 'Tissues', 'Cleaning', 46),
+( '10065', 'Toilet Paper', 'Personal Care', 50),
+( '10066', 'Tomato Pasta', 'Combo Food', 44),
+( '10067', 'Tomato Sauce', 'Combo Food', 31),
+( '10068', 'Tomatoes', 'Vegtable', 37),
+( '10069', 'Toothpaste', 'Personal Care', 29),
+( '10070', 'Tuna', 'Protein', 0),
+( '10071', 'White Beans', 'Protein', 8),
+( '10072', 'Yams', 'Vegtable', 3);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 4
+drop table if exists `foodbank4`;
+create table if not exists `foodbank4` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank4`
+  INSERT INTO `foodbank4` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 18),
+( '10002', 'Beefaroni', 'Combo Food',47 ),
+( '10003', 'Black Beans', 'Protein', 0),
+( '10004', 'Brownie Mix', 'Sweets', 5),
+( '10005', 'Cake Mix', 'Sweets', 26),
+( '10006', 'Canned Beef Stew', 'Protein', 36),
+( '10007', 'Canned Chicken', 'Protein', 13),
+( '10008', 'Canned Chilli', 'Protein', 7),
+( '10009', 'Carrots', 'Vegetable', 0),
+( '10010', 'Cereal', 'Grains', 41),
+( '10011', 'Chickpeas', 'Protein', 28),
+( '10012', 'Chicken Helper', 'Combo Food', 34),
+( '10013', 'Coffee', 'Drinks', 7),
+( '10014', 'Condensed Milk', 'Dairy', 44),
+( '10015', 'Conditioner', 'Personal Care', 38),
+( '10016', 'Cookies', 'Sweets', 25),
+( '10017', 'Corn', 'Vegetable', 46),
+( '10018', 'Crackers', 'Grains', 10),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 19),
+( '10020', 'Deodrant', 'Personal Care', 24),
+( '10021', 'Evaporated Milk', 'Dairy', 34),
+( '10022', 'Gravy', 'Condiments', 9),
+( '10023', 'Hamburger Helper', 'Combo Food', 28),
+( '10024', 'Hot Chocolate', 'Drinks', 3),
+( '10025', 'Icing', 'Sweets', 27),
+( '10026', 'Jam', 'Sweets', 11),
+( '10027', 'Jello', 'Sweets', 34),
+( '10028', 'Juice', 'Drinks', 7),
+( '10029', 'Ketchup', 'Condiments', 27),
+( '10030', 'Laundry Detergent', 'Cleaning', 28),
+( '10031', 'Lentils', 'Protein', 47),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 10),
+( '10033', 'Mayonnaise', 'Condiments', 38),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 3),
+( '10035', 'Mixed Vegtables', 'Vegtable', 40),
+( '10036', 'Mustard', 'Condiments', 26),
+( '10037', 'Napkins', 'Cleaning', 47),
+( '10038', 'Oatment', 'Cereal', 47),
+( '10039', 'Canned Oranges', 'Canned Fruit', 2),
+( '10040', 'Pancake Mix', 'Sweets', 22),
+( '10041', 'Pancake Syrup', 'Sweets', 37),
+( '10042', 'Paper Towels', 'Cleaning', 43),
+( '10043', 'Pasta Roni', 'Combo Food', 8),
+( '10044', 'Canned Peaches', 'Canned Fruit', 33),
+( '10045', 'Peanut Butter', 'Protein', 28),
+( '10046', 'Canned Pears', 'Canned Fruit', 10),
+( '10047', 'Peas', 'Vegtable', 26),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 30),
+( '10049', 'Potatoes', 'Vegetable', 16),
+( '10050', 'Powdered Milk', 'Dairy', 20),
+( '10051', 'Pudding', 'Sweets', 29),
+( '10052', 'Red Beans', 'Protein', 48),
+( '10053', 'Rice', 'Grains', 37),
+( '10054', 'Rice-A-Roni', 'Combo Food', 9),
+( '10055', 'Salad Dressing', 'Protein', 13),
+( '10056', 'Salmon', 'Protein', 33),
+( '10057', 'Salt', 'Condiments', 24),
+( '10058', 'Shampoo', 'Personal Care', 26),
+( '10059', 'Soap', 'Personal Care', 1),
+( '10060', 'Spaghettios', 'Combo Food', 34),
+( '10061', 'Spinach', 'Vegtable', 10),
+( '10062', 'Sugar', 'Sweets', 41),
+( '10063', 'Tea', 'Drinks', 50),
+( '10064', 'Tissues', 'Cleaning', 21),
+( '10065', 'Toilet Paper', 'Personal Care', 3),
+( '10066', 'Tomato Pasta', 'Combo Food', 4),
+( '10067', 'Tomato Sauce', 'Combo Food', 13),
+( '10068', 'Tomatoes', 'Vegtable', 50),
+( '10069', 'Toothpaste', 'Personal Care', 29),
+( '10070', 'Tuna', 'Protein', 18),
+( '10071', 'White Beans', 'Protein', 8),
+( '10072', 'Yams', 'Vegtable', 32);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 5
+drop table if exists `foodbank5`;
+create table if not exists `foodbank5` (
+  `itemNumber` varchar(10) NOT NULL,
+  `name` int(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank5`
+  INSERT INTO `foodbank5` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 8),
+( '10002', 'Beefaroni', 'Combo Food', 3),
+( '10003', 'Black Beans', 'Protein', 32),
+( '10004', 'Brownie Mix', 'Sweets', 20),
+( '10005', 'Cake Mix', 'Sweets', 16),
+( '10006', 'Canned Beef Stew', 'Protein', 15),
+( '10007', 'Canned Chicken', 'Protein', 25),
+( '10008', 'Canned Chilli', 'Protein', 30),
+( '10009', 'Carrots', 'Vegetable', 26),
+( '10010', 'Cereal', 'Grains', 36),
+( '10011', 'Chickpeas', 'Protein', 6),
+( '10012', 'Chicken Helper', 'Combo Food', 48),
+( '10013', 'Coffee', 'Drinks', 27),
+( '10014', 'Condensed Milk', 'Dairy', 13),
+( '10015', 'Conditioner', 'Personal Care', 43),
+( '10016', 'Cookies', 'Sweets', 39),
+( '10017', 'Corn', 'Vegetable', 38),
+( '10018', 'Crackers', 'Grains', 25),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 37),
+( '10020', 'Deodrant', 'Personal Care', 33),
+( '10021', 'Evaporated Milk', 'Dairy', 3),
+( '10022', 'Gravy', 'Condiments', 32),
+( '10023', 'Hamburger Helper', 'Combo Food', 27),
+( '10024', 'Hot Chocolate', 'Drinks', 16),
+( '10025', 'Icing', 'Sweets', 39),
+( '10026', 'Jam', 'Sweets', 41),
+( '10027', 'Jello', 'Sweets', 11),
+( '10028', 'Juice', 'Drinks', 16),
+( '10029', 'Ketchup', 'Condiments', 17),
+( '10030', 'Laundry Detergent', 'Cleaning', 28),
+( '10031', 'Lentils', 'Protein', 31),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 36),
+( '10033', 'Mayonnaise', 'Condiments', 34),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 27),
+( '10035', 'Mixed Vegtables', 'Vegtable', 46),
+( '10036', 'Mustard', 'Condiments', 48),
+( '10037', 'Napkins', 'Cleaning', 19),
+( '10038', 'Oatment', 'Cereal', 2),
+( '10039', 'Canned Oranges', 'Canned Fruit', 30),
+( '10040', 'Pancake Mix', 'Sweets', 39),
+( '10041', 'Pancake Syrup', 'Sweets', 39),
+( '10042', 'Paper Towels', 'Cleaning', 43),
+( '10043', 'Pasta Roni', 'Combo Food', 28),
+( '10044', 'Canned Peaches', 'Canned Fruit', 12),
+( '10045', 'Peanut Butter', 'Protein', 42),
+( '10046', 'Canned Pears', 'Canned Fruit', 22),
+( '10047', 'Peas', 'Vegtable', 34),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 26),
+( '10049', 'Potatoes', 'Vegetable', 27),
+( '10050', 'Powdered Milk', 'Dairy', 50),
+( '10051', 'Pudding', 'Sweets', 5),
+( '10052', 'Red Beans', 'Protein', 37),
+( '10053', 'Rice', 'Grains', 48),
+( '10054', 'Rice-A-Roni', 'Combo Food', 5),
+( '10055', 'Salad Dressing', 'Protein', 43),
+( '10056', 'Salmon', 'Protein', 19),
+( '10057', 'Salt', 'Condiments', 36),
+( '10058', 'Shampoo', 'Personal Care', 19),
+( '10059', 'Soap', 'Personal Care', 49),
+( '10060', 'Spaghettios', 'Combo Food', 42),
+( '10061', 'Spinach', 'Vegtable', 23),
+( '10062', 'Sugar', 'Sweets', 31),
+( '10063', 'Tea', 'Drinks', 1),
+( '10064', 'Tissues', 'Cleaning', 26),
+( '10065', 'Toilet Paper', 'Personal Care', 32),
+( '10066', 'Tomato Pasta', 'Combo Food', 0),
+( '10067', 'Tomato Sauce', 'Combo Food', 26),
+( '10068', 'Tomatoes', 'Vegtable', 45),
+( '10069', 'Toothpaste', 'Personal Care', 19),
+( '10070', 'Tuna', 'Protein', 16),
+( '10071', 'White Beans', 'Protein', 10),
+( '10072', 'Yams', 'Vegtable', 49);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 6
+drop table if exists `foodbank6`;
+create table if not exists `foodbank6` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank6`
+  INSERT INTO `foodbank6` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 6),
+( '10002', 'Beefaroni', 'Combo Food', 25),
+( '10003', 'Black Beans', 'Protein', 30),
+( '10004', 'Brownie Mix', 'Sweets', 37),
+( '10005', 'Cake Mix', 'Sweets', 22),
+( '10006', 'Canned Beef Stew', 'Protein', 21),
+( '10007', 'Canned Chicken', 'Protein', 7),
+( '1008', 'Canned Chilli', 'Protein', 12),
+( '1009', 'Carrots', 'Vegetable', 10),
+( '10010', 'Cereal', 'Grains', 30),
+( '10011', 'Chickpeas', 'Protein', 32),
+( '10012', 'Chicken Helper', 'Combo Food', 1),
+( '10013', 'Coffee', 'Drinks', 30),
+( '10014', 'Condensed Milk', 'Dairy', 45),
+( '10015', 'Conditioner', 'Personal Care', 34),
+( '10016', 'Cookies', 'Sweets', 15),
+( '10017', 'Corn', 'Vegetable', 14),
+( '10018', 'Crackers', 'Grains', 19),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 18),
+( '10020', 'Deodrant', 'Personal Care', 13),
+( '10021', 'Evaporated Milk', 'Dairy', 7),
+( '10022', 'Gravy', 'Condiments', 39),
+( '10023', 'Hamburger Helper', 'Combo Food', 28),
+( '10024', 'Hot Chocolate', 'Drinks', 13),
+( '10025', 'Icing', 'Sweets', 50),
+( '10026', 'Jam', 'Sweets', 22),
+( '10027', 'Jello', 'Sweets', 18),
+( '10028', 'Juice', 'Drinks', 28),
+( '10029', 'Ketchup', 'Condiments', 7),
+( '10030', 'Laundry Detergent', 'Cleaning', 35),
+( '10031', 'Lentils', 'Protein', 43),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 28),
+( '10033', 'Mayonnaise', 'Condiments', 30),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 0),
+( '10035', 'Mixed Vegtables', 'Vegtable', 31),
+( '10036', 'Mustard', 'Condiments', 7),
+( '10037', 'Napkins', 'Cleaning', 43),
+( '10038', 'Oatment', 'Cereal', 17),
+( '10039', 'Canned Oranges', 'Canned Fruit', 31),
+( '10040', 'Pancake Mix', 'Sweets', 29),
+( '10041', 'Pancake Syrup', 'Sweets', 27),
+( '10042', 'Paper Towels', 'Cleaning', 6),
+( '10043', 'Pasta Roni', 'Combo Food', 43),
+( '10044', 'Canned Peaches', 'Canned Fruit', 41),
+( '10045', 'Peanut Butter', 'Protein', 30),
+( '10046', 'Canned Pears', 'Canned Fruit', 20),
+( '10047', 'Peas', 'Vegtable', 43),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 41),
+( '10049', 'Potatoes', 'Vegetable', 30),
+( '10050', 'Powdered Milk', 'Dairy', 20),
+( '10051', 'Pudding', 'Sweets', 43),
+( '10052', 'Red Beans', 'Protein', 45),
+( '10053', 'Rice', 'Grains', 38),
+( '10054', 'Rice-A-Roni', 'Combo Food', 15),
+( '10055', 'Salad Dressing', 'Protein', 1),
+( '10056', 'Salmon', 'Protein', 46),
+( '10057', 'Salt', 'Condiments', 13),
+( '10058', 'Shampoo', 'Personal Care', 24),
+( '10059', 'Soap', 'Personal Care', 21),
+( '10060', 'Spaghettios', 'Combo Food', 36),
+( '10061', 'Spinach', 'Vegtable', 35),
+( '10062', 'Sugar', 'Sweets', 16),
+( '10063', 'Tea', 'Drinks', 25),
+( '10064', 'Tissues', 'Cleaning', 35),
+( '10065', 'Toilet Paper', 'Personal Care', 16),
+( '10066', 'Tomato Pasta', 'Combo Food', 25),
+( '10067', 'Tomato Sauce', 'Combo Food', 35),
+( '10068', 'Tomatoes', 'Vegtable', 22),
+( '10069', 'Toothpaste', 'Personal Care', 21),
+( '10070', 'Tuna', 'Protein', 29),
+( '10071', 'White Beans', 'Protein', 1),
+( '10072', 'Yams', 'Vegtable', 50);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 7
+drop table if exists `foodbank7`;
+create table if not exists `foodbank7` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank7`
+  INSERT INTO `foodbank7` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 41),
+( '10002', 'Beefaroni', 'Combo Food',34 ),
+( '10003', 'Black Beans', 'Protein', 1),
+( '10004', 'Brownie Mix', 'Sweets', 39),
+( '10005', 'Cake Mix', 'Sweets', 38),
+( '10006', 'Canned Beef Stew', 'Protein', 27),
+( '10007', 'Canned Chicken', 'Protein', 41),
+( '10008', 'Canned Chilli', 'Protein', 43),
+( '10009', 'Carrots', 'Vegetable', 16),
+( '10010', 'Cereal', 'Grains', 31),
+( '10011', 'Chickpeas', 'Protein', 18),
+( '10012', 'Chicken Helper', 'Combo Food', 5),
+( '10013', 'Coffee', 'Drinks', 13),
+( '10014', 'Condensed Milk', 'Dairy', 35),
+( '10015', 'Conditioner', 'Personal Care', 39),
+( '10016', 'Cookies', 'Sweets', 14),
+( '10017', 'Corn', 'Vegetable', 38),
+( '10018', 'Crackers', 'Grains', 39),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 11),
+( '10020', 'Deodrant', 'Personal Care', 7),
+( '10021', 'Evaporated Milk', 'Dairy', 33),
+( '10022', 'Gravy', 'Condiments', 43),
+( '10023', 'Hamburger Helper', 'Combo Food', 28),
+( '10024', 'Hot Chocolate', 'Drinks', 22),
+( '10025', 'Icing', 'Sweets', 6),
+( '10026', 'Jam', 'Sweets', 1),
+( '10027', 'Jello', 'Sweets', 31),
+( '10028', 'Juice', 'Drinks', 3),
+( '10029', 'Ketchup', 'Condiments', 36),
+( '10030', 'Laundry Detergent', 'Cleaning', 22),
+( '10031', 'Lentils', 'Protein', 26),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 8),
+( '10033', 'Mayonnaise', 'Condiments', 50),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 13),
+( '10035', 'Mixed Vegtables', 'Vegtable', 16),
+( '10036', 'Mustard', 'Condiments', 36),
+( '10037', 'Napkins', 'Cleaning', 10),
+( '10038', 'Oatment', 'Cereal', 42),
+( '10039', 'Canned Oranges', 'Canned Fruit', 32),
+( '10040', 'Pancake Mix', 'Sweets', 34),
+( '10041', 'Pancake Syrup', 'Sweets', 31),
+( '10042', 'Paper Towels', 'Cleaning', 24),
+( '10043', 'Pasta Roni', 'Combo Food', 16),
+( '10044', 'Canned Peaches', 'Canned Fruit', 18),
+( '10045', 'Peanut Butter', 'Protein', 32),
+( '10046', 'Canned Pears', 'Canned Fruit', 30),
+( '10047', 'Peas', 'Vegtable', 15),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 27),
+( '10049', 'Potatoes', 'Vegetable', 6),
+( '10050', 'Powdered Milk', 'Dairy', 45),
+( '10051', 'Pudding', 'Sweets', 16),
+( '10052', 'Red Beans', 'Protein', 38),
+( '10053', 'Rice', 'Grains', 20),
+( '10054', 'Rice-A-Roni', 'Combo Food', 9),
+( '10055', 'Salad Dressing', 'Protein', 14),
+( '10056', 'Salmon', 'Protein', 0),
+( '10057', 'Salt', 'Condiments', 6),
+( '10058', 'Shampoo', 'Personal Care', 3),
+( '10059', 'Soap', 'Personal Care', 22),
+( '10060', 'Spaghettios', 'Combo Food', 42),
+( '10061', 'Spinach', 'Vegtable', 31),
+( '10062', 'Sugar', 'Sweets', 20),
+( '10063', 'Tea', 'Drinks', 16),
+( '10064', 'Tissues', 'Cleaning', 9),
+( '10065', 'Toilet Paper', 'Personal Care', 15),
+( '10066', 'Tomato Pasta', 'Combo Food', 42),
+( '10067', 'Tomato Sauce', 'Combo Food', 21),
+( '10068', 'Tomatoes', 'Vegtable', 8),
+( '10069', 'Toothpaste', 'Personal Care', 48),
+( '10070', 'Tuna', 'Protein', 30),
+( '10071', 'White Beans', 'Protein', 17),
+( '10072', 'Yams', 'Vegtable', 48);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 8
+drop table if exists `foodbank8`;
+create table if not exists `foodbank8` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank8`
+  INSERT INTO `foodbank8` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 19),
+( '10002', 'Beefaroni', 'Combo Food', 40),
+( '10003', 'Black Beans', 'Protein', 12),
+( '10004', 'Brownie Mix', 'Sweets', 48),
+( '10005', 'Cake Mix', 'Sweets', 22),
+( '10006', 'Canned Beef Stew', 'Protein', 45),
+( '10007', 'Canned Chicken', 'Protein', 44),
+( '10008', 'Canned Chilli', 'Protein', 45),
+( '10009', 'Carrots', 'Vegetable', 18),
+( '10010', 'Cereal', 'Grains', 1),
+( '10011', 'Chickpeas', 'Protein', 49),
+( '10012', 'Chicken Helper', 'Combo Food', 12),
+( '10013', 'Coffee', 'Drinks', 27),
+( '10014', 'Condensed Milk', 'Dairy', 14),
+( '10015', 'Conditioner', 'Personal Care', 25),
+( '10016', 'Cookies', 'Sweets', 40),
+( '10017', 'Corn', 'Vegetable', 28),
+( '10018', 'Crackers', 'Grains', 14),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 34),
+( '10020', 'Deodrant', 'Personal Care', 23),
+( '10021', 'Evaporated Milk', 'Dairy', 41),
+( '10022', 'Gravy', 'Condiments', 15),
+( '10023', 'Hamburger Helper', 'Combo Food', 20),
+( '10024', 'Hot Chocolate', 'Drinks', 19),
+( '10025', 'Icing', 'Sweets', 26),
+( '10026', 'Jam', 'Sweets', 34),
+( '10027', 'Jello', 'Sweets', 18),
+( '10028', 'Juice', 'Drinks', 39),
+( '10029', 'Ketchup', 'Condiments', 14),
+( '10030', 'Laundry Detergent', 'Cleaning', 41),
+( '10031', 'Lentils', 'Protein', 41),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 40),
+( '10033', 'Mayonnaise', 'Condiments', 46),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 44),
+( '10035', 'Mixed Vegtables', 'Vegtable', 15),
+( '10036', 'Mustard', 'Condiments', 45),
+( '10037', 'Napkins', 'Cleaning', 23),
+( '10038', 'Oatment', 'Cereal', 20),
+( '10039', 'Canned Oranges', 'Canned Fruit', 42),
+( '10040', 'Pancake Mix', 'Sweets', 9),
+( '10041', 'Pancake Syrup', 'Sweets', 49),
+( '10042', 'Paper Towels', 'Cleaning', 46),
+( '10043', 'Pasta Roni', 'Combo Food', 11),
+( '10044', 'Canned Peaches', 'Canned Fruit', 5),
+( '10045', 'Peanut Butter', 'Protein', 23),
+( '10046', 'Canned Pears', 'Canned Fruit', 10),
+( '10047', 'Peas', 'Vegtable', 5),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 26),
+( '10049', 'Potatoes', 'Vegetable', 7),
+( '10050', 'Powdered Milk', 'Dairy', 14),
+( '10051', 'Pudding', 'Sweets', 1),
+( '10052', 'Red Beans', 'Protein', 14),
+( '10053', 'Rice', 'Grains', 37),
+( '10054', 'Rice-A-Roni', 'Combo Food', 46),
+( '10055', 'Salad Dressing', 'Protein', 47),
+( '10056', 'Salmon', 'Protein', 18),
+( '10057', 'Salt', 'Condiments', 2),
+( '10058', 'Shampoo', 'Personal Care', 27),
+( '10059', 'Soap', 'Personal Care', 44),
+( '10060', 'Spaghettios', 'Combo Food', 32),
+( '10061', 'Spinach', 'Vegtable', 5),
+( '10062', 'Sugar', 'Sweets', 11),
+( '10063', 'Tea', 'Drinks', 25),
+( '10064', 'Tissues', 'Cleaning', 49),
+( '10065', 'Toilet Paper', 'Personal Care', 47),
+( '10066', 'Tomato Pasta', 'Combo Food', 46),
+( '10067', 'Tomato Sauce', 'Combo Food', 42),
+( '10068', 'Tomatoes', 'Vegtable', 29),
+( '10069', 'Toothpaste', 'Personal Care', 50),
+( '10070', 'Tuna', 'Protein', 47),
+( '10071', 'White Beans', 'Protein', 42),
+( '10072', 'Yams', 'Vegtable', 44);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 9
+drop table if exists `foodbank9`;
+create table if not exists `foodbank7` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank9`
+  INSERT INTO `foodbank9` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 12),
+( '10002', 'Beefaroni', 'Combo Food', 0),
+( '10003', 'Black Beans', 'Protein', 0),
+( '10004', 'Brownie Mix', 'Sweets', 49),
+( '10005', 'Cake Mix', 'Sweets', 37),
+( '10006', 'Canned Beef Stew', 'Protein', 17),
+( '10007', 'Canned Chicken', 'Protein', 2),
+( '10008', 'Canned Chilli', 'Protein', 7),
+( '10009', 'Carrots', 'Vegetable', 12),
+( '10010', 'Cereal', 'Grains', 31),
+( '10011', 'Chickpeas', 'Protein', 41),
+( '10012', 'Chicken Helper', 'Combo Food', 0),
+( '10013', 'Coffee', 'Drinks', 50),
+( '10014', 'Condensed Milk', 'Dairy', 9),
+( '10015', 'Conditioner', 'Personal Care', 48),
+( '10016', 'Cookies', 'Sweets', 18),
+( '10017', 'Corn', 'Vegetable', 21),
+( '10018', 'Crackers', 'Grains', 22),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 14),
+( '10020', 'Deodrant', 'Personal Care', 36),
+( '10021', 'Evaporated Milk', 'Dairy', 18),
+( '10022', 'Gravy', 'Condiments', 26),
+( '10023', 'Hamburger Helper', 'Combo Food', 13),
+( '10024', 'Hot Chocolate', 'Drinks', 7),
+( '10025', 'Icing', 'Sweets', 2),
+( '10026', 'Jam', 'Sweets', 1),
+( '10027', 'Jello', 'Sweets', 6),
+( '10028', 'Juice', 'Drinks', 26),
+( '10029', 'Ketchup', 'Condiments', 2),
+( '10030', 'Laundry Detergent', 'Cleaning', 3),
+( '10031', 'Lentils', 'Protein', 8),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 33),
+( '10033', 'Mayonnaise', 'Condiments', 24),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 12),
+( '10035', 'Mixed Vegtables', 'Vegtable', 49),
+( '10036', 'Mustard', 'Condiments', 22),
+( '10037', 'Napkins', 'Cleaning', 38),
+( '10038', 'Oatment', 'Cereal', 26),
+( '10039', 'Canned Oranges', 'Canned Fruit', 33),
+( '10040', 'Pancake Mix', 'Sweets', 19),
+( '10041', 'Pancake Syrup', 'Sweets', 42),
+( '10042', 'Paper Towels', 'Cleaning', 42),
+( '10043', 'Pasta Roni', 'Combo Food', 32),
+( '10044', 'Canned Peaches', 'Canned Fruit', 5),
+( '10045', 'Peanut Butter', 'Protein', 43),
+( '10046', 'Canned Pears', 'Canned Fruit', 44),
+( '10047', 'Peas', 'Vegtable', 1),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 0),
+( '10049', 'Potatoes', 'Vegetable', 17),
+( '10050', 'Powdered Milk', 'Dairy', 6),
+( '10051', 'Pudding', 'Sweets', 42),
+( '10052', 'Red Beans', 'Protein', 18),
+( '10053', 'Rice', 'Grains', 11),
+( '10054', 'Rice-A-Roni', 'Combo Food', 20),
+( '10055', 'Salad Dressing', 'Protein', 30),
+( '10056', 'Salmon', 'Protein', 46),
+( '10057', 'Salt', 'Condiments', 35),
+( '10058', 'Shampoo', 'Personal Care', 46),
+( '10059', 'Soap', 'Personal Care', 21),
+( '10060', 'Spaghettios', 'Combo Food', 42),
+( '10061', 'Spinach', 'Vegtable', 45),
+( '10062', 'Sugar', 'Sweets', 32),
+( '10063', 'Tea', 'Drinks', 18),
+( '10064', 'Tissues', 'Cleaning', 49),
+( '10065', 'Toilet Paper', 'Personal Care', 27),
+( '10066', 'Tomato Pasta', 'Combo Food', 7),
+( '10067', 'Tomato Sauce', 'Combo Food', 35),
+( '10068', 'Tomatoes', 'Vegtable', 10),
+( '10069', 'Toothpaste', 'Personal Care', 25),
+( '10070', 'Tuna', 'Protein', 33),
+( '10071', 'White Beans', 'Protein', 8),
+( '10072', 'Yams', 'Vegtable', 3);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+-- --------------------------------------------------------------------------------------------------------------
+-- Table structure for food bank 10
+drop table if exists `foodbank10`;
+create table if not exists `foodbank10` (
+  `itemNumber` int(10) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `type` varchar(25) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  primary key (`itemNumber`) 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  
+  -- Dumping data for table `foodbank10`
+  INSERT INTO `foodbank10` (`itemNumber`,`name`,`type`,`quantity`) VALUES
+( '10001', 'Baked Beans', 'Protein', 23),
+( '10002', 'Beefaroni', 'Combo Food', 43),
+( '10003', 'Black Beans', 'Protein', 31),
+( '10004', 'Brownie Mix', 'Sweets', 49),
+( '10005', 'Cake Mix', 'Sweets', 21),
+( '10006', 'Canned Beef Stew', 'Protein', 45),
+( '10007', 'Canned Chicken', 'Protein', 17),
+( '10008', 'Canned Chilli', 'Protein', 19),
+( '10009', 'Carrots', 'Vegetable', 31),
+( '10010', 'Cereal', 'Grains', 6),
+( '10011', 'Chickpeas', 'Protein', 46),
+( '10012', 'Chicken Helper', 'Combo Food', 32),
+( '10013', 'Coffee', 'Drinks', 22),
+( '10014', 'Condensed Milk', 'Dairy', 43),
+( '10015', 'Conditioner', 'Personal Care', 16),
+( '10016', 'Cookies', 'Sweets', 29),
+( '10017', 'Corn', 'Vegetable', 16),
+( '10018', 'Crackers', 'Grains', 18),
+( '10019', 'Canned Cranberries', 'Canned Fruit', 13),
+( '10020', 'Deodrant', 'Personal Care', 14),
+( '10021', 'Evaporated Milk', 'Dairy', 20),
+( '10022', 'Gravy', 'Condiments', 18),
+( '10023', 'Hamburger Helper', 'Combo Food', 7),
+( '10024', 'Hot Chocolate', 'Drinks', 1),
+( '10025', 'Icing', 'Sweets', 29),
+( '10026', 'Jam', 'Sweets', 7),
+( '10027', 'Jello', 'Sweets', 11),
+( '10028', 'Juice', 'Drinks', 0),
+( '10029', 'Ketchup', 'Condiments', 16),
+( '10030', 'Laundry Detergent', 'Cleaning', 6),
+( '10031', 'Lentils', 'Protein', 9),
+( '10032', 'Macaroni & Cheese', 'Combo Food', 46),
+( '10033', 'Mayonnaise', 'Condiments', 22),
+( '10034', 'Canned Mixed Fruit', 'Canned Fruit', 17),
+( '10035', 'Mixed Vegtables', 'Vegtable', 22),
+( '10036', 'Mustard', 'Condiments', 44),
+( '10037', 'Napkins', 'Cleaning', 30),
+( '10038', 'Oatment', 'Cereal', 30),
+( '10039', 'Canned Oranges', 'Canned Fruit', 6),
+( '10040', 'Pancake Mix', 'Sweets', 12),
+( '10041', 'Pancake Syrup', 'Sweets', 15),
+( '10042', 'Paper Towels', 'Cleaning', 15),
+( '10043', 'Pasta Roni', 'Combo Food', 46),
+( '10044', 'Canned Peaches', 'Canned Fruit', 43),
+( '10045', 'Peanut Butter', 'Protein', 21),
+( '10046', 'Canned Pears', 'Canned Fruit', 8),
+( '10047', 'Peas', 'Vegtable', 45),
+( '10048', 'Canned Pineapple', 'Canned Fruit', 48),
+( '10049', 'Potatoes', 'Vegetable', 7),
+( '10050', 'Powdered Milk', 'Dairy', 18),
+( '10051', 'Pudding', 'Sweets', 1),
+( '10052', 'Red Beans', 'Protein', 33),
+( '10053', 'Rice', 'Grains', 15),
+( '10054', 'Rice-A-Roni', 'Combo Food', 37),
+( '10055', 'Salad Dressing', 'Protein', 5),
+( '10056', 'Salmon', 'Protein', 10),
+( '10057', 'Salt', 'Condiments', 9),
+( '10058', 'Shampoo', 'Personal Care', 31),
+( '10059', 'Soap', 'Personal Care', 33),
+( '10060', 'Spaghettios', 'Combo Food', 35),
+( '10061', 'Spinach', 'Vegtable', 36),
+( '10062', 'Sugar', 'Sweets', 28),
+( '10063', 'Tea', 'Drinks', 30),
+( '10064', 'Tissues', 'Cleaning', 9),
+( '10065', 'Toilet Paper', 'Personal Care', 24),
+( '10066', 'Tomato Pasta', 'Combo Food', 29),
+( '10067', 'Tomato Sauce', 'Combo Food', 28),
+( '10068', 'Tomatoes', 'Vegtable', 40),
+( '10069', 'Toothpaste', 'Personal Care', 9),
+( '10070', 'Tuna', 'Protein', 31),
+( '10071', 'White Beans', 'Protein', 37),
+( '10072', 'Yams', 'Vegtable', 42);
+COMMIT;
+  
+-- --------------------------------------------------------------------------------------------------------------
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

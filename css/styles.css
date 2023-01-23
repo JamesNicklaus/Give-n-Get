@@ -1,0 +1,88 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.row-header {
+    margin: 0px auto;
+    padding: 0px auto;
+}
+
+.jumbotron {
+    padding: 60px 10px 60px 10px;
+    margin: 0px auto;
+    color: #00438f;
+    position: relative;
+}
+
+.jumbotron img {
+    mix-blend-mode: multiply;
+}
+
+.jumbotron h1 {
+    font-size: 3.5em;
+}
+
+.jumbotron::before {
+    content: "";
+    background-image: url("/images/header.jpg");
+    background-size: cover;
+    object-fit: fill;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.5;
+}
+
+.navbar-dark {
+    background-color: #00438f
+}
+
+.row-bottom-margin { 
+    margin-bottom:7px; 
+}
+
+.home-header {
+    font-family: "Arial", broadway;
+    font-size: 20pt;
+    color: #00438f;
+    border-bottom: 2px solid black;
+    background-color: grey;
+    opacity: 0.8;
+}
+
+.leftside, .rightside {
+    width: 100%;
+}
+
+td, th {
+    text-align: center;
+}
+
+.fbnumwidth {
+    width: 65px;
+}
+
+.fbnumwidth2 {
+    width: 55px;
+}
+
+.dataTables_wrapper .dataTables_filter{
+    float: left;
+}
+.dataTables_wrapper .dataTables_length{
+    float: right;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    width: 100%; 
+}
+
+.flex-wrapper {
+    display: flex;
+    min-height: 80vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
