@@ -1,4 +1,4 @@
-# Give-n-Get-Project
+# Give-n-Get
 
 Fall 2022 Project
 
